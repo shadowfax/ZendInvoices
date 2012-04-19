@@ -1,0 +1,48 @@
+<?php echo $this->doctype(); ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <title>ZendInvoices</title>
+  <?php echo $this->headLink(); ?>
+  
+</head>
+<body>
+<div id="Header"></div>
+<div id="Header-Navigation">
+	<div class="container" style="padding:0px;">
+		<ul id="Top-Nav">
+			<li>
+				<a href="#">Invoices</a>
+			</li>
+			<li>
+				<a href="#">People</a>
+				<!-- 
+				<ul>
+					<li><a href="#">Customers</a></li>
+					<li><a href="#">Providers</a></li>
+					<li><a href="#">Staff</a></li>
+				</ul>
+				 -->
+			</li>
+		</ul>
+		<div class="clear"></div>
+	</div>
+</div>
+<div class="container">
+	<div id="Section-Header">
+<?php if (isset($this->SectionTitle)) { ?>
+		<h1 class="title">Change Password</h1>
+<?php } ?>
+		<div id="Content">
+			<?php echo $this->layout()->content; ?>
+		</div>
+	</div>
+</div>
+<div id="Footer">
+	<div class="container">
+		<span class="copyright">Copyright &copy; Juan Pedro González Gutiérrez. All rights reserved.</span>
+	</div>
+</div>
+</body>
+</html>
