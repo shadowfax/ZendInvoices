@@ -1,5 +1,5 @@
-﻿ZendSkeletonApplication
-=======================
+﻿ZendInvoices
+============
 
 Introduction
 ------------
