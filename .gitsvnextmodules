@@ -1,0 +1,9 @@
+[submodule "library/Zend"]
+	path = library/Zend
+	owner = library
+	url = http://framework.zend.com/svn/framework/standard/trunk/library/Zend
+	revision = 24713
+	branch = /
+	fetch = :refs/remotes/git-svn
+	remote = svn
+	type = dir

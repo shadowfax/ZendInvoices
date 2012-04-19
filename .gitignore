@@ -1,0 +1,5 @@
+/bin/
+/*.project
+/.zfproject.xml
+/.buildpath
+/.settings/
