@@ -34,7 +34,7 @@ class Default_Form_Login extends Zend_Form
 		
 		$this->addElement('submit', 'submit', array(
 			'ignore'   => true,
-			'label'    => 'Sign In'
+			'label'    => $this->getTranslator()->translate('Sign In')
 		));
 		
 		// And finally add some CSRF protection

@@ -38,6 +38,6 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		
 		$frontController->registerPlugin(new Invoices_Controller_Plugin_Acl());
 	}
-
+	
 }
 

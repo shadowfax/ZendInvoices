@@ -30,12 +30,12 @@
 <?php } ?>
 			
 			<div class="login-entry">			
-				<label>Username</label>
+				<label><?php echo $this->translate('Username'); ?></label>
 				<?php echo $this->LoginForm->username->renderViewHelper(); ?>
 				
 			</div>
 			<div class="login-entry">
-				<label>Password</label>
+				<label><?php echo $this->translate('Password'); ?></label>
 				<?php echo $this->LoginForm->password->renderViewHelper(); ?>
 				
 			</div>
