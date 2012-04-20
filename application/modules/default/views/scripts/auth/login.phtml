@@ -1,0 +1,49 @@
+<?php echo $this->doctype(); ?>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <?php echo $this->headMeta(); ?>
+  
+  <title>ZendInvoices</title>
+  <?php echo $this->headLink(); ?>
+  
+  <style type="text/css">
+  <!--
+  label {display:block;font-weight:bold;color:#777;}
+  input[type=text], input[type=password] {width:100%;}
+  input[type=submit] {float:right;padding:4px;}
+  .login-entry {margin-bottom:8px;}
+  -->
+  </style>
+</head>
+<body>
+
+<div class="container" style="width:300px!important;">
+	<div style="text-align:center;"><img src="<?php echo $this->baseUrl('/images/logo.png'); ?>" alt="Zend Invoices" /></div>
+	<div id="Section-Header">
+		<div id="Content">
+<?php if (isset($this->ErrorMessage)) {?>
+			<div class="error" style="margin-bottom:8px;">
+				<?php echo $this->ErrorMessage; ?>
+				
+			</div>
+<?php } ?>
+			
+			<div class="login-entry">			
+				<label>Username</label>
+				<?php echo $this->LoginForm->username->renderViewHelper(); ?>
+				
+			</div>
+			<div class="login-entry">
+				<label>Password</label>
+				<?php echo $this->LoginForm->password->renderViewHelper(); ?>
+				
+			</div>
+			<?php echo $this->LoginForm->csrf->renderViewHelper(); ?>
+			<?php echo $this->LoginForm->submit->renderViewHelper(); ?>
+			<div class="clear"></div>
+		</div>
+	</div>
+</div>
+</body>
+</html>
