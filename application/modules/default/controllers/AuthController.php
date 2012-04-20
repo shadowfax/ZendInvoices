@@ -22,14 +22,29 @@ class AuthController extends Zend_Controller_Action
 		$loginForm = new Default_Form_Login();
 		
 		if ($this->getRequest()->isPost()) {
+			// Initialize the users table
+			$users = new Invoices_Db_Table_Users();
+			
 			$formData = $this->getRequest()->getPost();
 			if ($loginForm->isValid($formData)) {
-				
+				if ($users->login($loginForm->getValue('username'), $loginForm->getValue('password'))) {
+					$this->_helper->redirector('index', 'index', 'default');
+				} else {
+					$this->view->ErrorMessage = "Invalid credentials";
+				}
 			} else {
 				$this->view->ErrorMessage = "Invalid credentials";
 			}
 		}
 		
 		$this->view->LoginForm = $loginForm;
+	}
+	
+	public function logoutAction()
+	{
+		$auth = Zend_Auth::getInstance()->clearIdentity();
+		Zend_Session::regenerateId();
+		
+		$this->_helper->redirector('login', 'auth', 'default');
 	}
 }

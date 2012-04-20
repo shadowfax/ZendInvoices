@@ -28,20 +28,22 @@
 				
 			</div>
 <?php } ?>
-			
-			<div class="login-entry">			
-				<label><?php echo $this->translate('Username'); ?></label>
-				<?php echo $this->LoginForm->username->renderViewHelper(); ?>
-				
-			</div>
-			<div class="login-entry">
-				<label><?php echo $this->translate('Password'); ?></label>
-				<?php echo $this->LoginForm->password->renderViewHelper(); ?>
-				
-			</div>
-			<?php echo $this->LoginForm->csrf->renderViewHelper(); ?>
-			<?php echo $this->LoginForm->submit->renderViewHelper(); ?>
-			<div class="clear"></div>
+
+			<form method="post">	
+				<div class="login-entry">			
+					<label><?php echo $this->translate('Username'); ?></label>
+					<?php echo $this->LoginForm->username->renderViewHelper(); ?>
+					
+				</div>
+				<div class="login-entry">
+					<label><?php echo $this->translate('Password'); ?></label>
+					<?php echo $this->LoginForm->password->renderViewHelper(); ?>
+					
+				</div>
+				<?php echo $this->LoginForm->csrf->renderViewHelper(); ?>
+				<?php echo $this->LoginForm->submit->renderViewHelper(); ?>
+				<div class="clear"></div>
+			</form>
 		</div>
 	</div>
 </div>
