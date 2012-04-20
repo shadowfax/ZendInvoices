@@ -29,6 +29,10 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $this->bootstrap('frontController');
         $view->headLink()->appendStylesheet($view->baseUrl('/css/layout.css'));
         $view->headLink()->appendStylesheet($view->baseUrl('/css/navigation.css'));
+        
+        $this->bootstrap('locale');
+        $translator = $this->getResource('locale');
+        $view->Lang = $translator->getLanguage();
 	}
 	
 	public function _initPlugins()
