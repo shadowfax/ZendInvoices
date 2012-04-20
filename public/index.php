@@ -14,6 +14,9 @@ set_include_path(implode(PATH_SEPARATOR, array(
     get_include_path(),
 )));
 
+// Set the timezone
+date_default_timezone_set("Europe/Madrid");
+
 /** Zend_Application */
 require_once 'Zend/Application.php';
 

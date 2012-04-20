@@ -69,6 +69,13 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 			$authStorage = Zend_Auth::getInstance()->getStorage();  
 			$authStorage->write($userInfo);  
   
+			// Update Last Login
+			$updateData = array(
+				'last_login'	=> date("Y-m-d H:i:s")
+			);
+			$where = $this->getAdapter()->quoteInto('id = ?', $userInfo->id);
+			parent::update($updateData, $where);
+			
 			// Everything OK
 			return true;
 		}
@@ -103,7 +110,7 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 				'salt'		=> $salt,
 				'password'	=> md5($salt . $hash),
 				'must_change_pass'	=> 0,
-				'last_pass_change'	=> new Zend_Db_Expr('NOW()')
+				'last_pass_change'	=> date("Y-m-d H:i:s")
 			);
 			
 			$where = array();
@@ -146,8 +153,16 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 		
 		$row = $this->getAdapter()->fetchRow($select);
 		
-		if ($row['must_change_pass'] === '1') return true;	
-		else return false;
+		if ($row['must_change_pass'] === '1') return true;
+
+		// Although it is not explicitly forced lets check
+		// the last time the user updated his password and 
+		// force if it is older than a year
+		$days = floor((time() - strtotime($row['last_pass_change'])) / 86400);
+		if ($days > 365) return true;
+		
+		// Default return value
+		return false;
 	}
 	
 }
