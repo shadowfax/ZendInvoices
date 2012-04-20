@@ -14,10 +14,10 @@
 	<div class="container" style="padding:0px;">
 		<ul id="Top-Nav">
 			<li>
-				<a href="#">Invoices</a>
+				<a href="#"><?php echo $this->translate("Invoices")?></a>
 			</li>
 			<li>
-				<a href="#">People</a>
+				<a href="#"><?php echo $this->translate("People")?></a>
 				<!-- 
 				<ul>
 					<li><a href="#">Customers</a></li>
@@ -42,7 +42,7 @@
 </div>
 <div id="Footer">
 	<div class="container">
-		<span class="copyright">Copyright &copy; Juan Pedro Gonz&aacute;lez Guti&eacute;rrez. All rights reserved.</span>
+		<span class="copyright">Copyright &copy; Juan Pedro Gonz&aacute;lez Guti&eacute;rrez. <?php echo $this->translate("All rights reserved")?>.</span>
 	</div>
 </div>
 </body>

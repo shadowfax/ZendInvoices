@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendInvoices\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-20 13:27+0100\n"
-"PO-Revision-Date: 2012-04-20 13:27+0100\n"
+"POT-Creation-Date: 2012-04-20 14:12+0100\n"
+"PO-Revision-Date: 2012-04-20 14:12+0100\n"
 "Last-Translator: Juan Pedro González\n"
 "Language-Team: Juan Pedro Gonzalez Gutierrez\n"
 "MIME-Version: 1.0\n"
@@ -20,11 +20,23 @@ msgstr ""
 msgid "Sign In"
 msgstr "Acceder"
 
-#: application/modules/default/views/scripts/auth/login.phtml:33
+#: application/layouts/scripts/layout.phtml:17
+msgid "Invoices"
+msgstr "Facturas"
+
+#: application/layouts/scripts/layout.phtml:20
+msgid "People"
+msgstr "Personas"
+
+#: application/layouts/scripts/layout.phtml:45
+msgid "All rights reserved"
+msgstr "Todos los derechos reservados"
+
+#: application/modules/default/views/scripts/auth/login.phtml:34
 msgid "Username"
 msgstr "Usuario"
 
-#: application/modules/default/views/scripts/auth/login.phtml:38
+#: application/modules/default/views/scripts/auth/login.phtml:39
 msgid "Password"
 msgstr "Contraseña"
 
