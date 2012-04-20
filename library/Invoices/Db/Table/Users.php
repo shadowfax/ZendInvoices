@@ -34,6 +34,12 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 		return md5($hash, false);
 	}
 	
+	/**
+	 * Process a user login.
+	 * 
+	 * @param String $username
+	 * @param String $password
+	 */
 	public function login($username, $password)
 	{
 		// Get the password hash
@@ -58,7 +64,7 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 			
 			// get all info about this user from the login table  
 			// ommit only the password, we don't need that			
-			$userInfo = $authAdapter->getResultRowObject(null, 'password');  
+			$userInfo = $authAdapter->getResultRowObject(array('id', 'username'));  
 			// the default storage is a session with namespace Zend_Auth
 			$authStorage = Zend_Auth::getInstance()->getStorage();  
 			$authStorage->write($userInfo);  
@@ -69,6 +75,79 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 		
 		// default return value
 		return false;
+	}
+	
+	/**
+	 * Change the current user password.
+	 * 
+	 * @param String $oldpassword
+	 * @param String $password
+	 */
+	public function changePassword($oldpassword, $password)
+	{
+		if (Zend_Auth::getInstance()->hasIdentity()) {
+			// Get user information
+			$userInfo = Zend_Auth::getInstance()->getStorage()->read();
+			
+			// Generate the password hash
+			$hash = $this->__hash_password($userInfo->username, $password);
+			
+			// Generate a new seed
+			list($usec, $sec) = explode(' ', microtime());
+			$seed = (float) $sec + ((float) $usec * 100003);
+			mt_srand($seed);
+			
+			$salt = md5(uniqid(mt_rand(),true));
+			
+			$update = array(
+				'salt'		=> $salt,
+				'password'	=> md5($salt . $hash),
+				'must_change_pass'	=> 0,
+				'last_pass_change'	=> new Zend_Db_Expr('NOW()')
+			);
+			
+			$where = array();
+			$where[] = $this->getAdapter()->quoteInto('active = ?', 1);
+			$where[] = $this->getAdapter()->quoteInto('id = ?', $userInfo->id);
+			$where[] = $this->getAdapter()->quoteInto('password = MD5(CONCAT(salt,?))', $this->__hash_password($userInfo->username, $oldpassword));
+			
+			return parent::update($update, $where);
+		}
+		
+		// default return value
+		return false;
+	}
+	
+	/**
+	 * Check if a user is active
+	 * 
+	 * @param Integer $user_id
+	 */
+	public function isActive($user_id)
+	{
+		$select = new Zend_Db_Select($this->getAdapter());
+		$select->from($this->_name, 'active');
+		$select->where('id=?', $user_id);
+		
+		$row = $this->getAdapter->fetchOne($select);
+		
+		if ($row === 1) return true;
+		return false;
+	}
+	
+	/**
+	 * Check if a user user must change passwords
+	 */
+	public function mustChangePassword($user_id)
+	{
+		$select = new Zend_Db_Select($this->getAdapter());
+		$select->from($this->_name, array('must_change_pass', 'last_pass_change'));
+		$select->where('id=?', $user_id);
+		
+		$row = $this->getAdapter()->fetchRow($select);
+		
+		if ($row['must_change_pass'] === '1') return true;	
+		else return false;
 	}
 	
 }

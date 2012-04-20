@@ -34,5 +34,47 @@ class Invoices_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 				$request->setDispatched(false);
 			}
 		}
+		
+		$resource = $request->getModuleName() . ':' . $request->getControllerName();
+		$action = $request->getActionName();
+		
+		// If the user must change the password do not allow anything else
+		$currentUser = Zend_Registry::get('Current_User');
+		
+		// Restrict user access if they must change password
+		// to the password change page or logout page.
+		if ($currentUser->mustChangePassword()) {
+			$limited_resources = array(
+				array(
+					'module'		=> 'default',
+					'controller'	=> 'auth',
+					'action'		=> 'logout'
+				),
+				array(
+					'module'		=> 'account',
+					'controller'	=> 'password',
+					'action'		=> 'index'
+				)
+			);
+			
+			$valid_resource = false;
+			
+			foreach($limited_resources as $t_resource) {
+				if ((strcasecmp($t_resource['module'] . ':' . $t_resource['controller'], $resource) == 0) && (strcasecmp($t_resource['action'], $action) == 0)) {
+					$valid_resource = true;
+					break;
+				}
+			}
+			
+			if (!$valid_resource) {
+				$request->setModuleName('account');
+				$request->setControllerName('password');
+				$request->setActionName('index');
+				$request->setDispatched(false);
+			}
+		}
+		
+		// Real ACL starts here!
+		
 	}
 }

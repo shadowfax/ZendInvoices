@@ -43,5 +43,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		$frontController->registerPlugin(new Invoices_Controller_Plugin_Acl());
 	}
 	
+	
+	protected function _initUser()
+	{
+		$auth = Zend_Auth::getInstance();
+		Zend_Registry::set('Current_User', new Invoices_User());
+	}
 }
 

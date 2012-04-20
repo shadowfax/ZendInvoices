@@ -1,3 +1,7 @@
 <div id="view-content">
+<?php if (isset($this->ErrorMessage)) {?>
+	<div class="error"><?php echo $this->ErrorMessage; ?></div>
+<?php } ?>
+
 	<?php echo $this->Form->setAction($this->url()); ?>
 </div>

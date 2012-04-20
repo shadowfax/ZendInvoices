@@ -7,11 +7,6 @@ class Account_Form_Password extends Zend_Form
 		$this->setName('user');
 		$this->setMethod('post');
         
-		// CSRF
-		$this->addElement('hash', 'csrf_token', array(
-			'salt'	=> 'unique'
-        ));
-        
         $this->addElement('password', 'opassword', array(
             'filters'    => array('StringTrim'),
             'validators' => array(
@@ -40,6 +35,12 @@ class Account_Form_Password extends Zend_Form
             'label'      => 'Confirm new password:'
         ));
 
+        // CSRF
+		$this->addElement('hash', 'csrf', array(
+			'salt'	=> 'unique',
+			'ignore' => true
+        ));
+        
         $this->addElement('submit', 'save', array(
             'required' => false,
             'ignore'   => true,
