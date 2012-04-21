@@ -56,6 +56,14 @@ class ErrorController extends Zend_Controller_Action
         
         $this->view->request   = $errors->request;
     }
+    
+    /**
+     * The IP address has been banned.
+     */
+    public function bannedAction()
+    {
+    	$this->getResponse()->setHttpResponseCode(500);
+    }
 
     public function getLog()
     {

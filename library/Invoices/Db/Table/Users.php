@@ -35,6 +35,20 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 	}
 	
 	/**
+	 * Find a user given the user name
+	 * 
+	 * @param String $username
+	 */
+	public function findUserByName($username)
+	{
+		$select = new Zend_Db_Select($this->getAdapter());
+		$select->from($this->_name);
+		$select->where('username=?', $username);
+		
+		return $this->getAdapter()->fetchRow($select);
+	}
+	
+	/**
 	 * Process a user login.
 	 * 
 	 * @param String $username
@@ -165,4 +179,31 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 		return false;
 	}
 	
+	/**
+	 * Get the email address of a given user
+	 * @param Integer $user_id
+	 */
+	public function getEmailAddress($user_id)
+	{
+		$select = new Zend_Db_Select($this->getAdapter());
+		$select->from($this->_name, array('email'));
+		$select->where('id=?', $user_id);
+		
+		return $this->getAdapter()->fetchOne($select);
+	}
+	
+	/**
+	 * Deactivate a user account given its user identifier
+	 * @param Integer $user_id
+	 */
+	public function deactivateAccount($user_id)
+	{
+		$data = array(
+			'active' => 0
+		);
+		
+		$where = $this->getAdapter()->quoteInto('id=?', $user_id);
+		
+		return parent::update($data, $where);
+	}
 }

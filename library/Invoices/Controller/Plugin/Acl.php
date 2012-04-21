@@ -18,6 +18,20 @@ class Invoices_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 {
 	public function preDispatch(Zend_Controller_Request_Abstract $request)
 	{
+		$resource = $request->getModuleName() . ':' . $request->getControllerName();
+		$action = $request->getActionName();
+		
+		// Take care of banned IPs
+		$banned_addresses = new Invoices_Db_Table_Security_BannedAddresses();
+		if ($banned_addresses->isBanned()) {
+			if (strcasecmp($resource, 'default:error') !== 0) {
+				$request->setModuleName('default');
+				$request->setControllerName('error');
+				$request->setActionName('banned');
+				$request->setDispatched(false);
+			}
+		}
+		
 		// Must be authenticated.
 		// Spanish -and other countries laws- require authentication due to privacy laws
 		if (!Zend_Auth::getInstance()->hasIdentity()) {
@@ -35,8 +49,7 @@ class Invoices_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 			}
 		}
 		
-		$resource = $request->getModuleName() . ':' . $request->getControllerName();
-		$action = $request->getActionName();
+		
 		
 		// If the user must change the password do not allow anything else
 		$currentUser = Zend_Registry::get('Current_User');
