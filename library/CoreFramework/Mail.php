@@ -18,6 +18,12 @@ class CoreFramework_Mail extends Zend_Mail
 {
 	
 	/**
+	 * Current instance of our Zend_View
+	 * @var Zend_View
+	 */
+	protected $_view;
+	
+	/**
 	 * Enter description here ...
 	 * @var Zend_View
 	 */
@@ -36,6 +42,12 @@ class CoreFramework_Mail extends Zend_Mail
 			self::$_defaultView->setScriptPath(APPLICATION_PATH . '/views/scripts/mail');
 		}
 		return self::$_defaultView;	
+	}
+	
+	public function setTemplateVariable($key, $value)
+	{
+		$this->_view->__set($key, $value);
+		return $this;
 	}
 	
 	public function sendTemplate($template, $encoding = Zend_Mime::ENCODING_QUOTEDPRINTABLE)

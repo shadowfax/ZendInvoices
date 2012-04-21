@@ -206,4 +206,15 @@ class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
 		
 		return parent::update($data, $where);
 	}
+	
+	public function activateAccount($user_id)
+	{
+		$data = array(
+			'active' => 1
+		);
+		
+		$where = $this->getAdapter()->quoteInto('id=?', $user_id);
+		
+		return parent::update($data, $where);
+	}
 }

@@ -1,6 +1,20 @@
 <?php
+/**
+ * ZendInvoices
+ *
+ * Copyright (c) 2012 Juan Pedro Gonzalez Gutierrez.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ * Contributors:
+ *    Juan Pedro Gonzalez Gutierrez - initial API and implementation
+ *    
+ */
 
-class Invoices_Db_Table_Security_BadLogins extends Zend_Db_Table_Abstract
+class CoreFramework_Db_Table_Security_BadLogins extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'security_bad_logins';
 	protected $_primary = array('user_id', 'time');
@@ -58,5 +72,19 @@ class Invoices_Db_Table_Security_BadLogins extends Zend_Db_Table_Abstract
 		
 		$attempts = $this->getAdapter()->fetchOne($select);
 		return (int)$attempts;
+	}
+	
+	/**
+	 * Reset the bad login count.
+	 * @param integer $user_id
+	 */
+	public function resetUser($user_id)
+	{
+		// delete old entries
+		$this->_garbageCollect();
+		
+		// and specific
+		$where = $select->where('user_id=?', $user_id);
+		parent::delete($where);
 	}
 }

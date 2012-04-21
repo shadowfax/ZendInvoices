@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: ZendInvoices\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2012-04-20 14:12+0100\n"
-"PO-Revision-Date: 2012-04-20 14:12+0100\n"
+"POT-Creation-Date: 2012-04-22 01:21+0100\n"
+"PO-Revision-Date: 2012-04-22 01:24+0100\n"
 "Last-Translator: Juan Pedro González\n"
 "Language-Team: Juan Pedro Gonzalez Gutierrez\n"
 "MIME-Version: 1.0\n"
@@ -16,19 +16,27 @@ msgstr ""
 "X-Poedit-SourceCharset: utf-8\n"
 "X-Poedit-SearchPath-0: application\n"
 
+#: application/modules/account/controllers/PasswordController.php:27
+msgid "Invalid password."
+msgstr "La contraseña no es válida."
+
+#: application/modules/account/controllers/PasswordController.php:30
+msgid "New password shall be different than the old password."
+msgstr "La nueva contraseña debe ser diferente a la antigua contraseña."
+
 #: application/modules/default/forms/Login.php:37
 msgid "Sign In"
 msgstr "Acceder"
 
-#: application/layouts/scripts/layout.phtml:17
+#: application/layouts/scripts/layout.phtml:21
 msgid "Invoices"
 msgstr "Facturas"
 
-#: application/layouts/scripts/layout.phtml:20
+#: application/layouts/scripts/layout.phtml:24
 msgid "People"
 msgstr "Personas"
 
-#: application/layouts/scripts/layout.phtml:45
+#: application/layouts/scripts/layout.phtml:49
 msgid "All rights reserved"
 msgstr "Todos los derechos reservados"
 
@@ -39,4 +47,21 @@ msgstr "Usuario"
 #: application/modules/default/views/scripts/auth/login.phtml:39
 msgid "Password"
 msgstr "Contraseña"
+
+#: application/modules/default/views/scripts/error/banned.phtml:5
+#: application/modules/default/views/scripts/error/banned.phtml:8
+msgid "Unauthorized"
+msgstr "Sin Autorización"
+
+#: application/modules/default/views/scripts/error/banned.phtml:9
+msgid "You have been banned from this site due to multiple invalid login attempts"
+msgstr "Usted ha sido bloqueado debido a multiples intentos fallidos de autenticación"
+
+#: application/views/scripts/mail/deactivated.phtml:1
+msgid "Your account has been deactivated due to multiple bad login attempts."
+msgstr "Su cuenta ha sido deshabilitada debido a múltiples intentos de autenticación fallidos."
+
+#: application/views/scripts/mail/deactivated.phtml:3
+msgid "You may reactivate your account by opening the following link"
+msgstr "Para reactivar su cuenta visite el siguiente enlace"
 

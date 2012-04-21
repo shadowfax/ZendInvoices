@@ -1,5 +1,5 @@
-<p>Your account has been deactivated due to multiple bad login attempts.</p>
+<p><?php echo $this->translate("Your account has been deactivated due to multiple bad login attempts."); ?></p>
 <p>
-You may reactivate your account by clicking on the following link:<br />
-<a href="http://www.website.com/reactivate.php">http://www.website.com/reactivate.php</a>
-<p>
+<?php echo $this->translate("You may reactivate your account by opening the following link"); ?>:<br />
+<a href="<?php echo $this->serverUrl() . $this->url(array('module' => 'default', 'controller' => 'auth', 'action' => 'reactivate', 'account' => $this->Token)); ?>"><?php echo $this->serverUrl() . $this->url(array('module' => 'default', 'controller' => 'auth', 'action' => 'reactivate', 'account' => $this->Token)); ?></a>
+</p>

@@ -25,7 +25,7 @@ class AuthController extends Zend_Controller_Action
 		if ($request->isPost()) {
 			// Initialize the users table
 			$users = new Invoices_Db_Table_Users();
-			$bad_logins = new Invoices_Db_Table_Security_BadLogins();
+			$bad_logins = new CoreFramework_Db_Table_Security_BadLogins();
 			
 			$formData = $this->getRequest()->getPost();
 			if ($loginForm->isValid($formData)) {
@@ -46,21 +46,24 @@ class AuthController extends Zend_Controller_Action
 					$userInfo = $users->findUserByName($username);
 					$bad_logins->register($userInfo['id']);
 					
+					// Shall we deactivate the account due to security risks
 					if ($bad_logins->getBadAttemptsForUser($userInfo['id']) > 4) {
 						// Block user account
 						if ($users->deactivateAccount($userInfo['id'])) {
+							// Generate a reactivation entry
+							$reactivation = new CoreFramework_Db_Table_Security_AccountReactivation();
+							
 							// Send email to reactivate account
 							$email_address = $users->getEmailAddress($userInfo['id']);
 							if (!empty($email_address)) {
 								$mail = new CoreFramework_Mail();
+								$mail->setTemplateVariable('Token', $reactivation->createToken($userInfo['id']));
 								$mail->setSubject('Your account has been deactivated');
-								$mail->addTo($email_address);
+								$mail->addTo($email_address,$email_address);
 								$mail->sendTemplate('deactivated.phtml');
 							}
 						}
 					}
-					
-					// Shall we deactivate the account due to security risks
 	
 					$this->view->ErrorMessage = "Invalid credentials";
 				}
@@ -95,5 +98,52 @@ class AuthController extends Zend_Controller_Action
 		Zend_Session::regenerateId();
 		
 		$this->_helper->redirector('login', 'auth', 'default');
+	}
+	
+	/**
+	 * Account reactivation
+	 * This is an auto reactivation so the user may enable the account through a link
+	 */
+	public function reactivateAction()
+	{
+		$request = $this->getRequest();
+		$token = $request->getParam('account', NULL);
+		if (is_null($token)) {
+			$request->setModuleName('default');
+			$request->setControllerName('error');
+			$request->setActionName('error404');
+			$request->setDispatched(false);
+		} elseif(!preg_match('/^[a-f0-9]{72}$/', $token)) {
+			$request->setModuleName('default');
+			$request->setControllerName('error');
+			$request->setActionName('error404');
+			$request->setDispatched(false);
+		}
+		
+		// Everything looks fine...
+		// Reactivate the account.
+		$reactivation = new CoreFramework_Db_Table_Security_AccountReactivation();
+		$userId = $reactivation->getUserIdentifier($token);
+		
+		if ($userId <= 0) {
+			$request->setModuleName('default');
+			$request->setControllerName('error');
+			$request->setActionName('error404');
+			$request->setDispatched(false);
+		}
+		
+		$users = new Invoices_Db_Table_Users();
+		if ($users->activateAccount($userId)) {
+			$reactivation->removeToken($token);
+			// Remove bad logins for this user aswell
+			$bad_logins = new CoreFramework_Db_Table_Security_BadLogins();
+			$bad_logins->resetUser($userId);
+		}
+		
+		// Go to login page
+		$request->setModuleName('default');
+		$request->setControllerName('auth');
+		$request->setActionName('login');
+		$request->setDispatched(false);
 	}
 }

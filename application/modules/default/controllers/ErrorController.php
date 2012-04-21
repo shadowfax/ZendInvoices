@@ -57,6 +57,12 @@ class ErrorController extends Zend_Controller_Action
         $this->view->request   = $errors->request;
     }
     
+    public function error404Action()
+    {
+    	$this->getResponse()->setHttpResponseCode(404);
+        $this->view->message = 'Page not found';
+    }
+    
     /**
      * The IP address has been banned.
      */
