@@ -18,9 +18,7 @@ class AuthController extends Zend_Controller_Action
 {
 	
 	public function loginAction()
-	{
-		$log = Zend_Registry::get('log');
-		
+	{		
 		$loginForm = new Default_Form_Login();
 		$request = $this->getRequest();
 		
@@ -34,7 +32,7 @@ class AuthController extends Zend_Controller_Action
 				$username = $loginForm->getValue('username');
 				if ($users->login($username, $loginForm->getValue('password'))) {
 					// Log
-					$log->info("login: success for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
+					CoreFramework_Log::info("login: success for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
 					// Must change password
 					$userInfo = Zend_Auth::getInstance()->getStorage()->read();
 					if ($userInfo->must_change_pass) {
@@ -43,7 +41,7 @@ class AuthController extends Zend_Controller_Action
 						$this->_helper->redirector('index', 'index', 'default');
 					}
 				} else {
-					$log->info("login: failed for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
+					CoreFramework_Log::info("login: failed for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
 					// Log it!
 					$userInfo = $users->findUserByName($username);
 					$bad_logins->register($userInfo['id']);
@@ -53,19 +51,12 @@ class AuthController extends Zend_Controller_Action
 						if ($users->deactivateAccount($userInfo['id'])) {
 							// Send email to reactivate account
 							$email_address = $users->getEmailAddress($userInfo['id']);
-							/*
-							// ToDo: Send email with reactivation link
 							if (!empty($email_address)) {
-								//$transport = new Zend_Mail_Transport_Smtp('mail.example.com');
-								//Zend_Mail::setDefaultTransport($transport);
-								$mail = new Zend_Mail();
-								$mail->setBodyText('This is the text of the mail.');
-								$mail->setFrom('somebody@example.com', 'Some Sender');
-								$mail->addTo($email_address, $_SERVER['SERVER_NAME']);
-								$mail->setSubject('TestSubject');
-								$mail->send();
+								$mail = new CoreFramework_Mail();
+								$mail->setSubject('Your account has been deactivated');
+								$mail->addTo($email_address);
+								$mail->sendTemplate('deactivated.phtml');
 							}
-							*/
 						}
 					}
 					

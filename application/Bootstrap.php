@@ -44,7 +44,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
 		}
 	}
 	
-	public function _initPlugins()
+	/*
+	protected function _initMail()
+	{
+		$mailTransport = new Zend_Mail_Transport_Smtp("localhost", array('port' => 25));
+		Zend_Mail::setDefaultTransport($mailTransport);
+	}
+	*/
+	
+	protected function _initPlugins()
 	{
 		$this->bootstrap('frontController');
 		$frontController = $this->getResource('frontController');
