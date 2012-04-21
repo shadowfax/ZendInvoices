@@ -35,6 +35,15 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap
         $view->Lang = $translator->getLanguage();
 	}
 	
+	protected function _initLog()
+	{
+		if ($this->hasPluginResource('log')) {
+			$logResource = $this->getPluginResource('log');
+			$log = $logResource->getLog();
+			Zend_Registry::set('log', $log);
+		}
+	}
+	
 	public function _initPlugins()
 	{
 		$this->bootstrap('frontController');

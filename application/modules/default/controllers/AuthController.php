@@ -19,6 +19,8 @@ class AuthController extends Zend_Controller_Action
 	
 	public function loginAction()
 	{
+		$log = Zend_Registry::get('log');
+		
 		$loginForm = new Default_Form_Login();
 		$request = $this->getRequest();
 		
@@ -31,6 +33,8 @@ class AuthController extends Zend_Controller_Action
 			if ($loginForm->isValid($formData)) {
 				$username = $loginForm->getValue('username');
 				if ($users->login($username, $loginForm->getValue('password'))) {
+					// Log
+					$log->info("login: success for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
 					// Must change password
 					$userInfo = Zend_Auth::getInstance()->getStorage()->read();
 					if ($userInfo->must_change_pass) {
@@ -39,6 +43,7 @@ class AuthController extends Zend_Controller_Action
 						$this->_helper->redirector('index', 'index', 'default');
 					}
 				} else {
+					$log->info("login: failed for '" . $username ."' from " . $_SERVER['REMOTE_ADDR']);
 					// Log it!
 					$userInfo = $users->findUserByName($username);
 					$bad_logins->register($userInfo['id']);
