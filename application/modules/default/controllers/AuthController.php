@@ -24,7 +24,7 @@ class AuthController extends Zend_Controller_Action
 		
 		if ($request->isPost()) {
 			// Initialize the users table
-			$users = new Invoices_Db_Table_Users();
+			$users = new CoreFramework_Db_Table_Users();
 			$bad_logins = new CoreFramework_Db_Table_Security_BadLogins();
 			
 			$formData = $this->getRequest()->getPost();
@@ -76,7 +76,7 @@ class AuthController extends Zend_Controller_Action
 			
 			// Shall we ban the IP address?
 			if ($bad_logins->getBadAttemptsForCurrentAddress() >= 20) {
-				$banned_addresses = new Invoices_Db_Table_Security_BannedAddresses();
+				$banned_addresses = new CoreFramework_Db_Table_Security_BannedAddresses();
 				$banned_addresses->banCurrentAddress();
 				
 				$request->setModuleName('default');
@@ -132,7 +132,7 @@ class AuthController extends Zend_Controller_Action
 			$request->setDispatched(false);
 		}
 		
-		$users = new Invoices_Db_Table_Users();
+		$users = new CoreFramework_Db_Table_Users();
 		if ($users->activateAccount($userId)) {
 			$reactivation->removeToken($token);
 			// Remove bad logins for this user aswell

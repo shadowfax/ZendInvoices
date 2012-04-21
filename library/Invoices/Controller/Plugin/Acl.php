@@ -22,7 +22,7 @@ class Invoices_Controller_Plugin_Acl extends Zend_Controller_Plugin_Abstract
 		$action = $request->getActionName();
 		
 		// Take care of banned IPs
-		$banned_addresses = new Invoices_Db_Table_Security_BannedAddresses();
+		$banned_addresses = new CoreFramework_Db_Table_Security_BannedAddresses();
 		if ($banned_addresses->isBanned()) {
 			if (strcasecmp($resource, 'default:error') !== 0) {
 				$request->setModuleName('default');

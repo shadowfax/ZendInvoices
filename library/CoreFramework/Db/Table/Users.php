@@ -14,7 +14,7 @@
  *    
  */
 
-class Invoices_Db_Table_Users extends Zend_Db_Table_Abstract
+class CoreFramework_Db_Table_Users extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'users';
 	protected $primary = 'id';

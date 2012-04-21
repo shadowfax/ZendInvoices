@@ -1,7 +1,20 @@
 <?php
+/**
+ * ZendInvoices
+ *
+ * Copyright (c) 2012 Juan Pedro Gonzalez Gutierrez.
+ *
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the GNU Public License v3.0
+ * which accompanies this distribution, and is available at
+ * http://www.gnu.org/licenses/gpl.html
+ *
+ * Contributors:
+ *    Juan Pedro Gonzalez Gutierrez - initial API and implementation
+ *    
+ */
 
-
-class Invoices_User
+class CoreFramework_User
 {
 	protected $_id;
 	
@@ -34,7 +47,7 @@ class Invoices_User
 		if ($this->_id == 0) return false;
 		
 		// Check against database
-		$users = new Invoices_Db_Table_Users();
+		$users = new CoreFramework_Db_Table_Users();
 		return $users->isActive($this->_id);
 	}
 	
@@ -43,7 +56,7 @@ class Invoices_User
 	 */
 	public function mustChangePassword()
 	{
-		$users = new Invoices_Db_Table_Users();
+		$users = new CoreFramework_Db_Table_Users();
 		
 		if ($this->_id > 0) return $users->mustChangePassword($this->_id);
 		else return false;

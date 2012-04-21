@@ -20,7 +20,7 @@ class Account_PasswordController extends Zend_Controller_Action
         		$oldpassword = $form->getValue('opassword');
         		
         		if (strcasecmp($password, $form->getValue('opassword')) !== 0) {
-        			$users = new Invoices_Db_Table_Users();
+        			$users = new CoreFramework_Db_Table_Users();
         			if($users->changePassword($oldpassword, $password)) {
         				$this->_helper->redirector('index', 'index', 'default');
         			} else {

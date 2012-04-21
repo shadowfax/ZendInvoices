@@ -14,7 +14,7 @@
  *    
  */
 
-class Invoices_Db_Table_Security_BannedAddresses extends Zend_Db_Table_Abstract
+class CoreFramework_Db_Table_Security_BannedAddresses extends Zend_Db_Table_Abstract
 {
 	protected $_name = 'security_banned_addresses';
 	protected $_primary = 'address';
